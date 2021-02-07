@@ -1,0 +1,8 @@
+
+
+# Swiss Ephemeris swetest
+swetest:
+  # executable file
+  bin: /path/to/swetest-binary
+  # directory containing data files (like seas_00.se1)
+  dir:  /path/to/sweph

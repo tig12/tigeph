@@ -1,0 +1,222 @@
+/** 
+    Contains normalization and styles used in all sites.
+    @history    2017, Thierry Graff : Creation
+**/
+
+/* ================ Normalization ================ */
+*{
+    margin:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-size:1em;
+}
+
+/* ================ HTML elements ================ */
+body{
+    padding:0.5rem;
+    background:#eee;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+a{text-decoration:none;}
+
+img{display: block; background:white;}
+
+h1{
+    width:100%;
+    margin:auto;
+    text-align:center;
+    padding:0.3rem;
+    margin:1rem 0;
+}
+h1 .subtitle{font-size:0.8em;}
+h2{
+    margin:1rem 0;
+}
+h3{
+    margin:1rem 0;
+}
+
+pre{
+    background:lightgrey;
+    padding:.5rem;
+    margin:.5rem;
+}
+pre.normal{background:none;}
+code.color{background:lightgrey;}
+
+
+/* ================ Particular elements ================ */
+.intro{
+    font-size:1.2rem;
+    margin:1rem 0 1rem 2rem;
+}
+
+table.wikitable{
+    border-collapse:collapse;
+}
+table.wikitable > tr > th, table.wikitable > * > tr > th {
+    /* background-color: #eaecf0; */
+    background-color: lightblue;
+    text-align: center;
+    vertical-align:top;
+}
+table.wikitable > tr > th,
+table.wikitable > tr > td,
+table.wikitable > * > tr > th,
+table.wikitable > * > tr > td {
+    border: 1px solid #a2a9b1;
+    padding: 0.2rem 0.4rem;
+    vertical-align:top;
+}
+table.wikitable tr td code{
+    background:none;
+}
+
+.alternate-rows tr:nth-child(odd){background-color:#e0e0e0;}
+.alternate-rows tr:nth-child(even){background-color:#d9edf7;}
+
+.img-title{font-size:.9rem; font-weight:bold; text-align:center;}
+
+.tip{
+    margin:1rem;
+    padding:1rem;
+    background:lightblue;
+    border:2px solid yellow;
+}
+
+
+/* ================ Style shortcuts ================ */
+
+.background-none{background:none;}
+
+.flex-wrap{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.red{color:red;}
+
+ul.spaced{margin-top:.8rem;}
+ol.spaced{margin-top:.8rem;}
+ul.spaced>li, ol.spaced>li{padding-bottom:.8rem;}
+
+ul.naked>li,ol.naked>li{list-style-type:none;}
+
+ul.simple{list-style-type: '- ';}
+
+table.border{border-collapse:collapse;}
+table.border td{border:1px solid #a2a9b1;}
+table.padded2 td{padding:2px;}
+
+.clear-left{clear:left;}
+.float-left{float:left;}
+.clear-right{clear:right;}
+.float-right{float:right;}
+
+.inline{display:inline;}
+.inline-block{display:inline-block;}
+.block{display:block;}
+
+.arial{font-family:Arial,Helvetica,sans-serif;}
+.courier{font-family:"Courier New",Courier,monospace;}
+.dejavu{font-family:DejaVu,serif;}
+
+.bold{font-weight:bold;}
+.normal{font-weight:normal;}
+.word-spacing{word-spacing:1em;}
+
+.center{text-align:center;}
+.justify{text-align:justify;}
+.right{text-align:right;}
+.left{text-align:left;}
+
+.vertical-align-top{vertical-align:top;}
+.vertical-align-middle{vertical-align:middle;}
+
+.border-none{border:none;}
+.border-radius10{border-radius:10px;}
+.border{border:1px solid grey;}
+.border2{border:2px solid grey;}
+.border-left{border-left:1px solid grey;}
+.border-right{border-right:1px solid grey;}
+.border-top{border-top:1px solid grey;}
+.border-bottom{border-bottom:1px solid grey;}
+
+.margin-auto{margin:auto;}
+.margin{margin:1rem;}
+.margin0{margin:0;}
+.margin05{margin:.5rem;}
+.margin2{margin:2rem;}
+.margin3{margin:3rem;}
+
+.margin-top{margin-top:1rem;}                            
+.margin-top0{margin-top:0;}
+.margin-top05{margin-top:.5rem;}
+.margin-top2{margin-top:2rem;}
+.margin-top3{margin-top:3rem;}
+
+.margin-left{margin-left:1rem;}
+.margin-left0{margin-left:0;}
+.margin-left05{margin-left:.5rem;}
+.margin-left2{margin-left:2rem;}
+.margin-left3{margin-left:3rem;}
+.margin-left5{margin-left:5rem;}
+
+.margin-bottom{margin-bottom:1rem;}                            
+.margin-bottom0{margin-bottom:0;}
+.margin-bottom05{margin-bottom:.5rem;}
+.margin-bottom2{margin-bottom:2rem;}
+.margin-bottom3{margin-bottom:3rem;}
+
+.margin-right{margin-right:1rem;}
+.margin-right0{margin-right:0;}
+.margin-right05{margin-right:.5rem;}
+.margin-right2{margin-right:2rem;}
+.margin-right3{margin-right:3rem;}
+
+.padding{padding:1rem;}
+.padding0{padding:0;}
+.padding05{padding:.5rem;}
+.padding2{padding:2rem;}
+.padding3{padding:3rem;}
+
+.padding-top{padding-top:1rem;}
+.padding-top0{padding-top:0;}
+.padding-top05{padding-top:.5rem;}
+.padding-top2{padding-top:2rem;}
+.padding-top3{padding-top:3rem;}
+
+.padding-left{padding-left:1rem;}
+.padding-left0{padding-left:0;}                                      
+.padding-left05{padding-left:.5rem;}
+.padding-left2{padding-left:2rem;}
+.padding-left3{padding-left:3rem;}
+
+.padding-bottom{padding-bottom:1rem;}
+.padding-bottom0{padding-bottom:0;}
+.padding-bottom05{padding-bottom:.5rem;}
+.padding-bottom2{padding-bottom:2rem;}
+.padding-bottom3{padding-bottom:3rem;}
+
+.padding-right{padding-right:1rem;}
+.padding-right0{padding-right:0;}
+.padding-right05{padding-right:.5rem;}
+.padding-right2{padding-right:2rem;}
+.padding-right3{padding-right:3rem;}
+
+.big1{font-size:1.1rem;}
+.big2{font-size:1.2rem;}
+.big3{font-size:1.3rem;}
+.big4{font-size:1.4rem;}
+.big5{font-size:1.5rem;}
+.big20{font-size:2rem;}
+.big30{font-size:3rem;}
+.big40{font-size:4rem;}
+
+.small9{font-size:.9rem;}
+.small8{font-size:.8rem;}
+.small7{font-size:.7rem;}
+.small6{font-size:.6rem;}
