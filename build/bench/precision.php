@@ -1,8 +1,8 @@
 <?php
 /******************************************************************************
     Comparision between different ephemeris computation routines.
-    Sweph using JPL is considered as the reference implementation.
-    Other implementation are tested against Sweph JPL.
+    Swetest using JPL is considered as the reference implementation.
+    Other implementation are tested against Swetest JPL.
     Generates HTML file in tigeph/tmp/bench
     
     @license  GPL
@@ -13,7 +13,7 @@ namespace buildeph\bench;
 
 use tigeph\model\SysolC;
 use tigeph\ephem\meeus1\Meeus1;
-use tigeph\ephem\sweph\Sweph;
+use tigeph\ephem\swetest\Swetest;
 
 class precision {
     
@@ -28,12 +28,12 @@ class precision {
     **/
     public static function execute($params=[]){
         //
-        self::initSweph();
+        self::initSwetest();
         self::initDays();
         self::pageHeader();
         //
         self::$output .= "<table class=\"wikitable\">\n";
-        self::$output .= "    <tr><th></th><th>Sweph</th><th>&Delta; Meeus1</th></tr>\n";
+        self::$output .= "    <tr><th></th><th>Swetest</th><th>&Delta; Meeus1</th></tr>\n";
         //
         foreach(self::$dates as $date){
             self::$output .= "    <tr><td colspan=\"3\"><b>$date</b></td></tr>\n";
@@ -42,7 +42,7 @@ class precision {
                 'planets'   => SysolC::MAIN_PLANETS,
             ];
             //
-            $swe = Sweph::ephem($params);
+            $swe = Swetest::ephem($params);
             //
             $m1 = Meeus1::ephem($params);
             //
@@ -68,7 +68,7 @@ class precision {
     }
     
     // ******************************************************
-    private static function initSweph(){
+    private static function initSwetest(){
         $filename = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config.yml';
         if(!is_file($filename)){
             echo "Unable to read configuration file : $filename.\n";
@@ -81,7 +81,7 @@ class precision {
             echo "Check syntax and try again\n";
             exit;
         }
-        Sweph::init($config['swetest']['bin'], $config['swetest']['dir']);
+        Swetest::init($config['swetest']['bin'], $config['swetest']['dir']);
     }
     
     // ******************************************************

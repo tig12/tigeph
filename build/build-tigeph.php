@@ -18,7 +18,7 @@ require_once 'autoload.php';
 //
 // parameter checking
 //
-$commands = ['bench'];
+$commands = ['bench', 'pack'];
 $commands_str = implode(', ', $commands);
 
 $USAGE = <<<USAGE
@@ -54,31 +54,42 @@ else{
 //
 try{
     switch($argv[1]){
-        case 'bench': 
-            $possibleArg2 = ['precision', 'time'];
-            $possibleArg2_str = implode(', ', $possibleArg2);
-            if($argc < 3){
-                echo "WRONG USAGE\n";
+        
+    case 'bench': 
+        $possibleArg2 = ['precision', 'time'];
+        $possibleArg2_str = implode(', ', $possibleArg2);
+        if($argc < 3){
+            echo "WRONG USAGE\n";
+            echo "    {$argv[0]} {$argv[1]}\n";
+            echo "    needs at least 2 arguments\n";
+            echo "Possible values for argument2 : $possibleArg2_str\n";
+            exit;
+        }
+        else{
+            if(!in_array($argv[2], $possibleArg2)){
+                echo "INVALID ARGUMENT : {$argv[2]}\n";
                 echo "    {$argv[0]} {$argv[1]}\n";
                 echo "    needs at least 2 arguments\n";
                 echo "Possible values for argument2 : $possibleArg2_str\n";
                 exit;
             }
-            else{
-                if(!in_array($argv[2], $possibleArg2)){
-                    echo "INVALID ARGUMENT : {$argv[2]}\n";
-                    echo "    {$argv[0]} {$argv[1]}\n";
-                    echo "    needs at least 2 arguments\n";
-                    echo "Possible values for argument2 : $possibleArg2_str\n";
-                    exit;
-                }
-            }
-            // here, $argv[2] is valid
-            switch($argv[2]){
-            	case 'precision': buildeph\bench\precision::execute(); break;
-            	case 'time'     : buildeph\bench\time::execute(); break;
-            }
-        break;
+        }
+        // here, $argv[2] is valid
+        switch($argv[2]){
+            case 'precision': buildeph\bench\precision::execute(); break;
+            case 'time'     : buildeph\bench\time::execute(); break;
+        }
+    break;
+    
+    case 'pack':
+        if($argc > 2){
+            echo "WRONG USAGE\n";
+            echo "    Useless parameter : {$argv[2]}\n";
+            exit;
+        }
+        buildeph\pack\pack::execute();
+    break;
+    
     }
 }
 catch(Exception $e){

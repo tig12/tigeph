@@ -72,7 +72,7 @@ class Meeus1 {
     }
     
     /** 
-        @param  $P params, see Sweph::ephem() doc
+        @param  $P params, see Swetest::ephem() doc
     **/
     public static function ephem($P) {
         $jd = JulianDay::isoDate2jd($P['date']);

@@ -1,8 +1,8 @@
 <?php
 /******************************************************************************
     Comparision between different ephemeris computation routines.
-    Sweph using JPL is considered as the reference implementation.
-    Other implementation are tested against Sweph JPL.
+    Swetest using JPL is considered as the reference implementation.
+    Other implementation are tested against Swetest JPL.
     Generates HTML file in tigeph/tmp/bench
     
     @license  GPL
@@ -13,7 +13,7 @@ namespace buildeph\bench;
 
 use tigeph\model\SysolC;
 use tigeph\ephem\meeus1\Meeus1;
-use tigeph\ephem\sweph\Sweph;
+use tigeph\ephem\swetest\Swetest;
 
 class time {
     
@@ -38,7 +38,7 @@ class time {
     **/
     public static function execute($params=[]){
         //
-        self::initSweph();
+        self::initSwetest();
         self::initDays();
         self::pageHeader();
         //
@@ -50,10 +50,10 @@ class time {
                 'date'      => $date,
                 'planets'   => SysolC::MAIN_PLANETS,
             ];
-            $swe = Sweph::ephem($params);
+            $swe = Swetest::ephem($params);
         }
         $t2 = microtime(true);
-        $dt_sweph = round($t2 - $t1, 2);
+        $dt_swetest = round($t2 - $t1, 2);
         //
         $t1 = microtime(true);
         foreach(self::$dates as $date){
@@ -73,8 +73,8 @@ class time {
         self::$output .= "<div>(interval: " . self::$interval . ")</div>\n";
         self::$output .= "<table class=\"wikitable margin\">\n";
         self::$output .= "    <tr><th></th><th>time</th><th>%</th></tr>\n";
-        self::$output .= "    <tr><td>Sweph</td><td>$dt_sweph s</td><td>100 %</td></tr>\n";
-        $p = round(100 * $dt_m1 / $dt_sweph, 2);
+        self::$output .= "    <tr><td>Swetest</td><td>$dt_swetest s</td><td>100 %</td></tr>\n";
+        $p = round(100 * $dt_m1 / $dt_swetest, 2);
         self::$output .= "    <tr><td>Meeus1</td><td>$dt_m1 s</td><td>$p %</td></tr>\n";
         self::$output .= "</table>\n";
         self::pageFooter();
@@ -85,7 +85,7 @@ class time {
     }
     
     // ******************************************************
-    private static function initSweph(){
+    private static function initSwetest(){
         $filename = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config.yml';
         if(!is_file($filename)){
             echo "Unable to read configuration file : $filename.\n";
@@ -98,7 +98,7 @@ class time {
             echo "Check syntax and try again\n";
             exit;
         }
-        Sweph::init($config['swetest']['bin'], $config['swetest']['dir']);
+        Swetest::init($config['swetest']['bin'], $config['swetest']['dir']);
     }
     
     // ******************************************************
@@ -135,7 +135,7 @@ class time {
 <header>
 <h1>
     Compare execution time
-    <br>Sweph - Meeus1
+    <br>Swetest - Meeus1
 </h1>
 </header>
 

@@ -14,18 +14,18 @@ class SysolC{
     /** Value of an astronomical unit, in km (149597870.61 ; value IERS 1992). **/
     const KM_PER_AU = 149597870.61;
 
-    //********* Static initializer *********
+    // ********* Static initializer *********
     /** Static initializer, to be called before using the class **/
     public static function init(){
         SysolC::$ALL_BODIES = array_merge(
-            SysolC::$MAIN_PLANETS,
-            SysolC::$MAIN_ASTEROIDS,
-            SysolC::$MAIN_CENTAUR_ASTEROIDS
+            SysolC::MAIN_PLANETS,
+            SysolC::MAIN_ASTEROIDS,
+            SysolC::MAIN_CENTAUR_ASTEROIDS,
         );
     }
   
-    //********* Heavenly bodies -- called "planets" *********
-    //
+    // ********* Heavenly bodies -- called "planets" *********
+    
     /** Constant designating the Sun. **/                  const SUN       = 'sun';
     /** Constant designating Mercury. **/                  const MERCURY   = 'mercury';
     /** Constant designating Venus. **/                    const VENUS     = 'venus';
@@ -64,7 +64,7 @@ class SysolC{
         SysolC::SATURN,
         SysolC::URANUS,
         SysolC::NEPTUNE,
-        SysolC::PLUTO
+        SysolC::PLUTO,
     ];
   
     /** Array containing the codes of gazeous planets **/
@@ -72,7 +72,7 @@ class SysolC{
         SysolC::JUPITER,
         SysolC::SATURN,
         SysolC::URANUS,
-        SysolC::NEPTUNE
+        SysolC::NEPTUNE,
     ];
     
     /** Array containing the codes of the 4 main asteroids **/
@@ -92,10 +92,9 @@ class SysolC{
     /** Array containing the codes of all bodies known by the program **/
     public static $ALL_BODIES;
     
-    //********* General parameters *********
+    // ********* General parameters *********
     
     /** Nutation. **/
-    
     const NUTATION = 'nutation';
     /** Obliquity of the ecliptic. **/
     const OBLIQUITY = 'obliquity';
@@ -106,7 +105,7 @@ class SysolC{
     /** Mean obliquity for    t = 2000.0 (23.439292). **/
     const E0_2000 = 23.439292;
 
-    //********* Orbital parameters of particular bodies *********
+    // ********* Orbital parameters of particular bodies *********
     
     /** Constant designating the moon's mean node (north) **/
     const MEAN_LUNAR_NODE = 'mean-lunar-node';
@@ -117,7 +116,8 @@ class SysolC{
     /** Constant designating the moon's oscultating apogee **/
     const OSCULTATING_LUNAR_APOGEE = 'oscultating-lunar-apogee'; // true black moon ?
 
-    //********* phases of the moon *********
+    // ********* phases of the moon *********
+    
     /** Constant designating the new moon **/
     const NEW_MOON = 'new-moon';
     /** Constant designating the full moon **/
