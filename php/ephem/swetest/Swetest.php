@@ -22,12 +22,12 @@
     @history    2016-12-15 11:09:43+01:00, Thierry Graff : Full implementation of parameters
     @history    2008-06-01 20:19         , Thierry Graff : Creation
 ********************************************************************************/
-namespace tigeph\ephem\sweph;
+namespace tigeph\ephem\swetest;
 
 use tigeph\model\DomC;
 use tigeph\model\SysolC;
 
-class Sweph {
+class Swetest {
     
     /** Path to the swetest binary **/
     private static $SWEBIN;
@@ -158,8 +158,8 @@ class Sweph {
     // ******************************************************
     /** static initializer **/
     public static function init($sweBin, $sweDir){
-        Sweph::$SWEBIN = $sweBin;
-        Sweph::$SWEDIR = $sweDir;
+        Swetest::$SWEBIN = $sweBin;
+        Swetest::$SWEDIR = $sweDir;
     }
     
     //***************************************************
@@ -201,18 +201,18 @@ class Sweph {
         // planets
         $args .= ' -p'; // ex -p023C1456789FGIHABmt
         foreach($P['planets'] as $planet){
-            $args .= Sweph::$match_arg_planets[$planet];
+            $args .= Swetest::$match_arg_planets[$planet];
         }
         // houses
         if(!isset($P['compute-houses'])){
             $P['compute-houses'] = false;
         }
         if($P['compute-houses']){
-            $domificationSystem = Sweph::$match_arg_domification[$P['domification-system']];
+            $domificationSystem = Swetest::$match_arg_domification[$P['domification-system']];
             $args .= ' -house' . $P['lg'] . ',' . $P['lat'] . ',' . $domificationSystem; // ex -house12.05,49.50,P
         }
         // ephemeris dir
-        $args .= ' -edir' . Sweph::$SWEDIR;
+        $args .= ' -edir' . Swetest::$SWEDIR;
         // output
         $args .= ' -head'; // no header
         $args .= ' -fPl'; // echo name and longitude
@@ -238,11 +238,11 @@ class Sweph {
             preg_match($p1, $line, $matches);
             if(count($matches) == 3){
                 $code = trim($matches[1]);
-                if(isset(Sweph::$match_output_planets[$code])){
-                    $object = Sweph::$match_output_planets[$code];
+                if(isset(Swetest::$match_output_planets[$code])){
+                    $object = Swetest::$match_output_planets[$code];
                     $res['planets'][$object] = $matches[2];
                 }
-                else if(isset(Sweph::$match_output_houses[$code])){
+                else if(isset(Swetest::$match_output_houses[$code])){
                     $res['houses'][] = $matches[2];
                 }
             }
@@ -284,14 +284,14 @@ class Sweph {
         // rise / set parameters
         $args .= ' -rise -geopos' . $P['lg'] . ',' . $P['lat'] . ',' . $P['altitude']; // ex -rise -geopos12.05,49.50,250
         // ephemeris dir
-        $args .= ' -edir' . Sweph::$SWEDIR;
+        $args .= ' -edir' . Swetest::$SWEDIR;
         // output
         $args .= ' -head'; // no header -- comment this line for easier debug of $output
         //
         // execute swiss ephem
         //
         foreach($P['planets'] as $planet){
-            $args2 = $args . ' -p' .  Sweph::$match_arg_planets[$planet];
+            $args2 = $args . ' -p' .  Swetest::$match_arg_planets[$planet];
             exec(self::$SWEBIN . $args2, $output);
         }
         // parse output and fill result
@@ -323,7 +323,7 @@ class Sweph {
             $args = $args . ' -n2';
             foreach($missing_rise as $planet){
                 unset($output);
-                $args2 = $args . ' -p' .  Sweph::$match_arg_planets[$planet];
+                $args2 = $args . ' -p' .  Swetest::$match_arg_planets[$planet];
                 exec(self::$SWEBIN . $args2, $output);
                 preg_match($p1, $output[2], $m);
                 if(count($m) == 13){
@@ -346,7 +346,7 @@ class Sweph {
             or
             set < $P['date'] < rise
         @param  $P associative array of parameters ; 
-            Identic to {@link Sweph::riseSet()}  parameters, except that a parameter $P['date'] is used instead of $P['day']
+            Identic to {@link Swetest::riseSet()}  parameters, except that a parameter $P['date'] is used instead of $P['day']
             $P['date'] must be a ISO 8601 date (with day and time information)
     **/
     public static function surroundingRiseSet($P){
@@ -357,7 +357,7 @@ class Sweph {
         $args = '';
         // date time
         $dt = new DateTime($P['date']);
-        $dt->setTimezone(new DateTimeZone('UTC')); // converted in utc for sweph
+//        $dt->setTimezone(new DateTimeZone('UTC')); // converted in utc for sweph
         $date_utc = $dt->format('Y-m-d H:i:s');
         $dt->sub(new DateInterval('P1D'));
         $day = $dt->format('j.n.Y');
@@ -365,7 +365,7 @@ class Sweph {
         // rise / set parameters
         $args .= ' -rise -geopos' . $P['lg'] . ',' . $P['lat'] . ',' . $P['altitude']; // ex -rise -geopos12.05,49.50,250
         // ephemeris dir
-        $args .= ' -edir' . Sweph::$SWEDIR;
+        $args .= ' -edir' . Swetest::$SWEDIR;
         // -n2 : compute for 3 consecutive days
         $args .= ' -n3';
         // output
@@ -381,7 +381,7 @@ class Sweph {
         foreach($P['planets'] as $planet){
             unset($output);
             $dates = [];
-            $args2 = $args . ' -p' .  Sweph::$match_arg_planets[$planet];
+            $args2 = $args . ' -p' .  Swetest::$match_arg_planets[$planet];
             exec(self::$SWEBIN . $args2, $output);
             for($i=1; $i < 4; $i++){ // loop on the lines of results
                 preg_match($p1, $output[$i], $m);

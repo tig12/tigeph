@@ -1,6 +1,6 @@
 <?php
 /******************************************************************************
-    Test Sweph usage
+    Test Swetest usage
     
     See https://www.astro.com/swisseph/swetest.htm
     
@@ -12,7 +12,7 @@ require_once dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'autoload.php';
 
 use tigeph\model\DomC;
 use tigeph\model\SysolC;
-use tigeph\ephem\sweph\Sweph;
+use tigeph\ephem\swetest\Swetest;
 
 // read config to get path to sweph binary and data files
 $filename = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'config.yml';
@@ -28,13 +28,13 @@ if($config === false){
     exit;
 }
 
-Sweph::init($config['swetest']['bin'], $config['swetest']['dir']);
+Swetest::init($config['swetest']['bin'], $config['swetest']['dir']);
 
 $params = [
     'date'       => '2000-01-01 00:00:00',
     'planets'   => SysolC::MAIN_PLANETS,
 ];
-$coords = Sweph::ephem($params);
+$coords = Swetest::ephem($params);
 
 echo "\n"; print_r($coords); echo "\n";
 
