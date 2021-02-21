@@ -228,6 +228,11 @@ class Meeus1 implements Ephem {
         //
         // to do : conversion Ec / Eq
         //
+        // keep only 3 digits
+        foreach($g as $k => $v){
+            $g[$k]->x2 = round($g[$k]->x2, 3);
+        }
+        //
         if($onlyLongitude){
             $res = [];
             foreach($g as $k => $v){
