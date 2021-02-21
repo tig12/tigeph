@@ -30,9 +30,11 @@ if($config === false){
 
 Swetest::init($config['swetest']['bin'], $config['swetest']['dir']);
 
+$planets = SysolC::MAIN_PLANETS;
+$planets[] = SysolC::MEAN_LUNAR_NODE;
 $params = [
-    'date'       => '2000-01-01 00:00:00',
-    'planets'   => SysolC::MAIN_PLANETS,
+    'date'      => '2000-01-01 00:00:00',
+    'planets'   => $planets,
 ];
 $coords = Swetest::ephem($params);
 

@@ -35,18 +35,21 @@ class precision {
         self::$output .= "<table class=\"wikitable\">\n";
         self::$output .= "    <tr><th></th><th>Swetest</th><th>&Delta; Meeus1</th></tr>\n";
         //
+        $planets = SysolC::MAIN_PLANETS;
+        $planets[] = SysolC::MEAN_LUNAR_NODE;
+        //
         foreach(self::$dates as $date){
             self::$output .= "    <tr><td colspan=\"3\"><b>$date</b></td></tr>\n";
             $params = [
                 'date'      => $date,
-                'planets'   => SysolC::MAIN_PLANETS,
+                'planets'   => $planets,
             ];
             //
             $swe = Swetest::ephem($params);
             //
             $m1 = Meeus1::ephem($params);
             //
-            foreach(SysolC::MAIN_PLANETS as $pl){
+            foreach($planets as $pl){
                 if($pl == SysolC::EARTH){
                     continue;
                 }
