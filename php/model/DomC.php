@@ -49,38 +49,38 @@ class DomC{
     // The values are used as 0-based array indexes
     //
     /** Constant designating cuspide of first house (synonym of {@link H1}). **/
-    const ASC = '0';
+    const ASC = 'H1';
     /** Constant designating cuspide of fourth house (Imum Coeli, synonym of {@link H4}). **/
-    const IC = '3';
+    const IC = 'H4';
     /** Constant designating cuspide of seventh house (synonym of {@link H7}). **/
-    const DESC = '6';
+    const DESC = 'H7';
     /** Constant designating cuspide of tenth house (Mid Heaven, synonym of {@link H10}). **/
-    const MH = '9';
+    const MH = 'H10';
     
     /** Constant designating cuspide of first house (synonym of {@link ASC}). **/
-    const H1 = '0';
+    const H1 = 'H1';
     /** Constant designating cuspide of second house. **/
-    const H2 = '1';
+    const H2 = 'H2';
     /** Constant designating cuspide of third house. **/
-    const H3 = '2';
+    const H3 = 'H3';
     /** Constant designating cuspide of fourth house (synonym of {@link IC}). **/
-    const H4 = '3';
+    const H4 = 'H4';
     /** Constant designating cuspide of fifth house. **/
-    const H5 = '4';
+    const H5 = 'H5';
     /** Constant designating cuspide of sixth house. **/
-    const H6 = '5';
+    const H6 = 'H6';
     /** Constant designating cuspide of seventh house (synonym of {@link DESC}). **/
-    const H7 = '6';
+    const H7 = 'H7';
     /** Constant designating cuspide of eighth house. **/
-    const H8 = '7';
+    const H8 = 'H8';
     /** Constant designating cuspide of ninth house. **/
-    const H9 = '8';
+    const H9 = 'H9';
     /** Constant designating cuspide of tenth house. **/
-    const H10 = '9';
+    const H10 = 'H10';
     /** Constant designating cuspide of eleventh house (synonym of {@link MC}). **/
-    const H11 = '10';
+    const H11 = 'H11';
     /** Constant designating cuspide of twelvth house. **/
-    const H12 = '11';
+    const H12 = 'H12';
     
     /** Array containing the codes of all houses **/
     const ALL_HOUSES = [

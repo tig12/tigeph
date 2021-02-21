@@ -30,14 +30,23 @@ if($config === false){
 
 Swetest::init($config['swetest']['bin'], $config['swetest']['dir']);
 
+$date = '2000-01-01 00:00:00';
+
 $planets = SysolC::MAIN_PLANETS;
 $planets[] = SysolC::MEAN_LUNAR_NODE;
-$params = [
-    'date'      => '2000-01-01 00:00:00',
-    'planets'   => $planets,
-];
-$coords = Swetest::ephem($params);
 
+// test without house computation
+$coords = Swetest::ephem($date, $planets);
+echo "\n"; print_r($coords); echo "\n";
+
+// test with house computation
+$params = [
+    'compute-houses'=>true,
+    'domification-system' => DomC::PLACIDUS,
+    'lg'=>0,
+    'lat'=>0
+];
+$coords = Swetest::ephem($date, $planets, $params);
 echo "\n"; print_r($coords); echo "\n";
 
 /* 

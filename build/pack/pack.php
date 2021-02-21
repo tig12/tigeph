@@ -34,6 +34,7 @@ class pack {
             'config.yml.dist',
             'php' . DS . 'autoload.php',
             'php' . DS . 'Tigeph.php',
+            'php' . DS . 'Ephem.php',
             'php' . DS . 'model' . DS . 'DomC.php',
             'php' . DS . 'model' . DS . 'IAA.php',
             'php' . DS . 'model' . DS . 'SolarFramesC.php',
