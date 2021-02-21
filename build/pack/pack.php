@@ -33,7 +33,9 @@ class pack {
         $files = [
             'config.yml.dist',
             'php' . DS . 'autoload.php',
+            'php' . DS . 'Tigeph.php',
             'php' . DS . 'model' . DS . 'DomC.php',
+            'php' . DS . 'model' . DS . 'IAA.php',
             'php' . DS . 'model' . DS . 'SolarFramesC.php',
             'php' . DS . 'model' . DS . 'SpaceTimeC.php',
             'php' . DS . 'model' . DS . 'SysolC.php',
