@@ -67,7 +67,8 @@ class Meeus1 {
             SysolC::SATURN,
             SysolC::URANUS,
             SysolC::NEPTUNE,
-            SysolC::PLUTO
+            SysolC::PLUTO,
+            SysolC::MEAN_LUNAR_NODE,
         ];
     }
     
@@ -89,6 +90,7 @@ class Meeus1 {
     //***************************************************
     /**
         Computation of coordinates of one or several planets, using Meeus' computation.
+        SysolC::MEAN_LUNAR_NODE computed only if geocentric ecliptic coordinates are demanded
         @param  $frame
                 The frame in which the coordinates must be expressed, 
                 using constants of SolarFramesC ; Geocentric Ecliptic by default.
@@ -211,6 +213,9 @@ class Meeus1 {
                 }
             }
         }
+        if(in_array(SysolC::MEAN_LUNAR_NODE, $this->planets)){
+            $g[SysolC::MEAN_LUNAR_NODE] = new Vector3(0, self::calcMeanLunarNode(), 0);
+        }
         //
         // to do : apply precession and nutation
         //
@@ -231,21 +236,22 @@ class Meeus1 {
     
     //***************************************************
     /** Calls one of the calcXXX function, depending on parameter $whichPlanet.
-    <br/>cf chap 18 of Meeus.
-    @param $whichPlanet The index of the planet to compute, as defined in AstronomyConstants.php.
+        cf chap 18 of Meeus.
+        @param $whichPlanet The index of the planet to compute, as defined in AstronomyConstants.php.
     **/
     private function calcPlanet($whichPlanet){
         switch($whichPlanet){
-            case SysolC::MOON       : return $this->calcMoon();     break;
-            case SysolC::MERCURY    : return $this->calcMercury();  break;
-            case SysolC::VENUS      : return $this->calcVenus();    break;
-            case SysolC::EARTH      : return $this->calcEarth();    break;
-            case SysolC::MARS       : return $this->calcMars();     break;
-            case SysolC::JUPITER    : return $this->calcJupiter();  break;
-            case SysolC::SATURN     : return $this->calcSaturn();   break;
-            case SysolC::URANUS     : return $this->calcUranus();   break;
-            case SysolC::NEPTUNE    : return $this->calcNeptune();  break;
-            case SysolC::PLUTO      : return $this->calcPluto();    break;
+            case SysolC::MOON            : return $this->calcMoon();          break;
+            case SysolC::MERCURY         : return $this->calcMercury();       break;
+            case SysolC::VENUS           : return $this->calcVenus();         break;
+            case SysolC::EARTH           : return $this->calcEarth();         break;
+            case SysolC::MARS            : return $this->calcMars();          break;
+            case SysolC::JUPITER         : return $this->calcJupiter();       break;
+            case SysolC::SATURN          : return $this->calcSaturn();        break;
+            case SysolC::URANUS          : return $this->calcUranus();        break;
+            case SysolC::NEPTUNE         : return $this->calcNeptune();       break;
+            case SysolC::PLUTO           : return $this->calcPluto();         break;
+            case SysolC::MEAN_LUNAR_NODE : return $this->calcMeanLunarNode(); break;
         }
     }
     
@@ -272,7 +278,7 @@ class Meeus1 {
     
     //***************************************************
     /** Computes the heliocentric ecliptic coordinates of the Earth - spherical coordinates.
-    <br/>cf chap 18 of Meeus.
+        cf chap 18 of Meeus.
     **/
     private function calcEarth(){
         $T = $this->T;
@@ -1118,6 +1124,16 @@ class Meeus1 {
         $b=atan2($zp,$r)/Meeus1x::PIs180;
         //
         return new Vector3($r, $l, $b);
+    }
+    
+    /**
+        Computes the geocentric ecliptic longitude of mean moon north node
+        Result in decimal degrees
+        cf chap 30 of Meeus.
+        Formula also implemented in calcMoon()
+    **/
+    private function calcMeanLunarNode(){
+        return Meeus1x::mod360(259.183275 - 1934.142 * $this->T + 0.002078 * $this->T2 - 0.0000022*$this->T3);
     }
 } // end class
 
