@@ -40,6 +40,7 @@ class pack {
             'php' . DS . 'model' . DS . 'SolarFramesC.php',
             'php' . DS . 'model' . DS . 'SpaceTimeC.php',
             'php' . DS . 'model' . DS . 'SysolC.php',
+            'php' . DS . 'ephem' . DS . 'JulianDay.php',
             'php' . DS . 'ephem' . DS . 'meeus1' . DS . 'Meeus1.php',
             'php' . DS . 'ephem' . DS . 'swetest' . DS . 'Swetest.php',
         ];
