@@ -3,23 +3,19 @@
     Astronomical computations from old Meeus' book (Astronomical Formulae for Calculators, third edition).
     
     @license    GPL
-    @history 2021-02-02 17:17:18+01:00, Thierry Graff : Integration to tigeph
-    @history 2007-02-05,                Thierry Graff : PHP4 to PHP5 port
-    @history 2002-10-29,                Thierry Graff : C to PHP4 port
-    @history 1997-05,                   Thierry Graff : Pascal to C port (Pascal sources given by David Coronat - www.pholos.com)
-    
-    @todo Optimization using T2, T3 in calcXXX functions;
-    @todo Change T2 in calcPlanets, to avoid name confusion with $this->T2
+    @history    2021-04-03 02:18:19+01:00, Thierry Graff : Copy Meeus1 to Meeusmall
 ****************************************************************************************/
-namespace tigeph\ephem\meeus1;
+namespace tigeph\ephem\meeusmall;
 
 use tigeph\Ephem;
 use tigeph\model\SpaceTimeC;
 use tigeph\model\SolarFramesC;
 use tigeph\model\SysolC;
 use tigeph\ephem\JulianDay;
+use tigeph\ephem\meeus1\Meeus1x;
+use tigeph\ephem\meeus1\Vector3;
 
-class Meeus1 implements Ephem {
+class Meeusmall implements Ephem {
     
     //********************* Instance variables ******************************
     private $planets;
@@ -86,7 +82,7 @@ class Meeus1 implements Ephem {
         $frame=SolarFramesC::EC;
         $sphereCart=SpaceTimeC::SPHERICAL;
         $onlyLongitude=true;
-        $meeus = new Meeus1($what, $jd);
+        $meeus = new Meeusmall($what, $jd);
         return ['planets' => $meeus->calcPlanets($frame, $sphereCart)];
     }
     
@@ -115,6 +111,7 @@ class Meeus1 implements Ephem {
         if(is_numeric($this->planets)){
             $this->planets = array($this->planets);
         }
+/* 
         // TO DO : check coherence of param : helio + sun or geo + earth) ; moon : only geo
         if($this->planets == ""){
             $this->planets = self::getComputableThings();
@@ -125,6 +122,7 @@ class Meeus1 implements Ephem {
                 $this->planets[] = SysolC::SUN;
             }
         }
+*/
         $T = ($this->jd-2415020.0)/36525.0; // nb of julian centuries since 1900-01.0.5
         $mas = self::calcMeanAnomalies($T);
         //
@@ -138,6 +136,7 @@ class Meeus1 implements Ephem {
         $mas2 = self::calcMeanAnomalies($T2);
         $appEarth = self::calcEarth($T2, $mas2); // Ec helio.
         //
+/* 
         // if only sun or earth required, return results
         if(count($this->planets) == 1){
             if($this->planets[0] == SysolC::EARTH && $frame == SolarFrames::HELIO){
@@ -149,6 +148,7 @@ class Meeus1 implements Ephem {
                 return array(SysolC::SUN => new Vector3($appEarth->x1, Meeus1x::mod360($appEarth->x2 - 180), -$appEarth->x3));
             }
         }
+*/
         //
         // Compute the planets' Ecliptic geometric heliocentric coords
         $gaz = self::calcGaz($T, $this->planets); // variables for gazeous planets
@@ -308,6 +308,7 @@ class Meeus1 implements Ephem {
         $lsol = $L + $center;
         $rsol = 1.0000002*(1-$ecc*$ecc)/(1+$ecc*cos($M3_rad+$center*Meeus1x::PIs180));
         //
+/* 
         //************ Better precision ********************
         $a = (153.23 + 22518.7541 * $T ) * Meeus1x::PIs180;
         $b = (216.57 + 45037.5082 * $T ) * Meeus1x::PIs180;
@@ -323,6 +324,7 @@ class Meeus1 implements Ephem {
         $lsol = $lsol    + 0.00134 * cos($a) + 0.00154 * cos($b)
                  + 0.00200 * cos($c) + 0.00179 * sin($d)
                  + 0.00178 * sin($e);
+*/
         /*
         Corrections brought by David (not in Meeus).
         - 0.00569 - 0.00479 * sin(nl )
@@ -354,6 +356,7 @@ class Meeus1 implements Ephem {
         $T2 = $this->T2;
         $T3 = $this->T3;
         $l1=(270.434164+481267.8831*$T-0.001133*$T2+1.9E-06*$T3);
+/* 
         $m=(358.475833+35999.0498*$T-0.00015*$T2-3.3E-06*$T3)*Meeus1x::PIs180;
         $mm=(296.104608+477198.8491*$T+0.009192*$T2-0.0000144*$T3)*Meeus1x::PIs180;
         $d=(350.737486+445267.1142*$T-0.001436*$T2+1.9E-06*$T3)*Meeus1x::PIs180;
@@ -422,6 +425,7 @@ class Meeus1 implements Ephem {
                      +(0.000538*sin(4*$mm))
                      +(0.000521*sin(4*$d-$m))*$e
                      +(0.000486*sin(2*$mm-$d));
+*/
         return new Vector3(0, Meeus1x::mod360($l1), 0);
     }
     
@@ -1145,131 +1149,4 @@ class Meeus1 implements Ephem {
     private function calcMeanLunarNode(){
         return Meeus1x::mod360(259.183275 - 1934.142 * $this->T + 0.002078 * $this->T2 - 0.0000022*$this->T3);
     }
-} // end class
-
-
-//******************************************************************************************************
-//                                          Auxiliary code
-//******************************************************************************************************
-
-/** 
-    Auxiliary functions for Meeus1
-**/
-class Meeus1x {
-    
-    /** PI / 180 **/
-    const PIs180 = 0.017453292519943295769236907684886;
-    
-    
-    /** Computation of the eccentric anomaly from eccentricity and mean anomaly.
-        @param e Eccentricity.
-        @param M Mean anomaly.
-        @return Eccentric anomaly.
-    **/
-    public static function keplerEq($e, $M){
-        $ct = 0;
-        $u_p = 0;
-        $u = $M;
-        $precision = 0.0000000000001;
-        while (abs($u - $u_p) > $precision){
-            $u_p = $u;
-            $u = $M + $e * sin($u);
-            $ct++;
-            if ($ct > 25){
-                $precision = $precision * 2;
-                $ct = 0;
-            }
-        }
-        return $u;
-    }
-    
-    //********************* mod360 ******************************
-    /** Returns a number between 0 and 360. */
-    public static function mod360($nb){
-        while ($nb > 360.0) $nb -= 360.0;
-        while ($nb < 0.0) $nb += 360.0;
-        return $nb;
-    }
-    
-    //********************* sphereToCart ******************************
-    /** Transform a Vector3 from spherical to cartesian expression.
-    @param $v A Vector3, with the angles expressed in degrees.
-    @return The cartesian coordinates ; the unit is the same as the distance unit of $v.
-    */
-    public static function sphereToCart(Vector3 $v){
-        $r = $v->x1;
-        $theta = deg2rad($v->x2);
-        $phi = deg2rad($v->x3);
-        $x = $r*cos($phi)*cos($theta);
-        $y = $r*cos($phi)*sin($theta);
-        $z = $r*sin($phi);
-        return new Vector3($x, $y, $z);
-    }
-    
-    //********************* cartTophere ******************************
-    /** Transform a Vector3 from    cartesian to spherical expression.
-    @param $v A Vector3, with the angles expressed in degrees.
-    @return The spherical coordinates ; the angles are in degrees.
-    */
-    public static function cartToSphere(Vector3 $v){
-        // variables to remember initial values.
-        $X = $v->x1;
-        $Y = $v->x2;
-        $Z = $v->x3;
-        $rho2 = $X*$X + $Y*$Y + $Z*$Z;
-        $rho = sqrt($rho2);
-        $theta = Meeus1x::atan3($Y, $X);
-        $phi = asin($Z / $rho);
-        return new Vector3($rho, $theta, $phi);
-    }
-    
-    //*************************** atan3 ***********************************
-    /** Computation of arcTangent, giving a result in [0, 2*<FONT FACE="symbol">p</FONT>[.
-    @return A number <CODE>alpha</CODE> such as <CODE>cos(alpha) = x/sqrt(x*x + y*y)</CODE> and 
-    <CODE>sin(alpha) = y/sqrt(x*x + y*y)</CODE> and alpha belongs to [0, 2*<FONT FACE="symbol">p</FONT>[.
-    */
-    public static function atan3($y, $x){
-        $alpha = atan2($y, $x); // belongs to [-PI, PI[
-        if ($alpha >= 0){
-            return $alpha;
-        }
-        else { 
-            return $alpha + 2*M_PI;
-        }
-    }
-
-} // end class
-
-//*********************************************************************
-// Vector3
-//*********************************************************************
-/** 
-    Point in a 3D space
-**/
-class Vector3 {
-    var $x1, $x2, $x3;
-
-    function __construct($x1, $x2, $x3){
-        $this->x1 = $x1; $this->x2 = $x2; $this->x3 = $x3;
-    }
-
-    /** Norm of a vector. **/
-    public function norm(){
-        return sqrt($this->x1*$this->x1
-                  + $this->x2*$this->x2
-                  + $this->x3*$this->x3);
-    }
-
-    /** 
-        Substraction of vectors. 
-        @return $v1 - $v2.
-    **/
-    public static function sub($v1, $v2){
-        return new Vector3(
-            $v1->x1 - $v2->x1,
-            $v1->x2 - $v2->x2,
-            $v1->x3 - $v2->x3
-        );
-    }
-    
 } // end class

@@ -13,6 +13,7 @@ namespace buildeph\bench;
 
 use tigeph\model\SysolC;
 use tigeph\ephem\meeus1\Meeus1;
+use tigeph\ephem\meeusmall\Meeusmall;
 use tigeph\ephem\swetest\Swetest;
 
 class precision {
@@ -33,7 +34,7 @@ class precision {
         self::pageHeader();
         //
         self::$output .= "<table class=\"wikitable\">\n";
-        self::$output .= "    <tr><th></th><th>Swetest</th><th>&Delta; Meeus1</th></tr>\n";
+        self::$output .= "    <tr><th></th><th>Swetest</th><th>&Delta; Meeus1</th><th>&Delta; Meeusmall</th></tr>\n";
         //
         $planets = SysolC::MAIN_PLANETS;
         $planets[] = SysolC::MEAN_LUNAR_NODE;
@@ -41,13 +42,13 @@ class precision {
         foreach(self::$dates as $date){
             self::$output .= "    <tr><td colspan=\"3\"><b>$date</b></td></tr>\n";
             $params = [
-                'date'      => $date,
-                'planets'   => $planets,
             ];
             //
-            $swe = Swetest::ephem($params);
+            $swe = Swetest::ephem($date, $planets);
             //
-            $m1 = Meeus1::ephem($params);
+            $m1 = Meeus1::ephem($date, $planets);
+            //
+            $msmall = Meeusmall::ephem($date, $planets);
             //
             foreach($planets as $pl){
                 if($pl == SysolC::EARTH){
@@ -57,7 +58,9 @@ class precision {
                 self::$output .= "<td class=\"padding-left\">$pl</td>";
                 self::$output .= "<td>" . $swe['planets'][$pl] . "</td>";
                 $dm1 = round(abs($swe['planets'][$pl] - $m1['planets'][$pl]), 4);
+                $dmsmall = round(abs($swe['planets'][$pl] - $msmall['planets'][$pl]), 4);
                 self::$output .= "<td>$dm1</td>";
+                self::$output .= "<td>$dmsmall</td>";
                 self::$output .= "</tr>\n";
             }
         }

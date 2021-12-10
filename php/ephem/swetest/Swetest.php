@@ -309,7 +309,7 @@ class Swetest implements Ephem {
                 }
             }
         }
-        return $res;
+        return ['planets' => $res];
     }
     
     

@@ -13,6 +13,7 @@ namespace buildeph\bench;
 
 use tigeph\model\SysolC;
 use tigeph\ephem\meeus1\Meeus1;
+use tigeph\ephem\meeusmall\Meeusmall;
 use tigeph\ephem\swetest\Swetest;
 
 class time {
@@ -24,7 +25,8 @@ class time {
     private static $dates = [];
     
     /** Nb of computations **/
-    private static $N = 10000;
+//    private static $N = 10000;
+    private static $N = 1000;
     
     /** For report - String containing the interval of dates used in the tests **/
     private static $interval = '';
@@ -42,7 +44,7 @@ class time {
         self::initDays();
         self::pageHeader();
         //
-        // Computation
+        // Sweph
         //
         $t1 = microtime(true);
         foreach(self::$dates as $date){
@@ -50,10 +52,15 @@ class time {
                 'date'      => $date,
                 'planets'   => SysolC::MAIN_PLANETS,
             ];
-            $swe = Swetest::ephem($params);
+            $swe = Swetest::ephem(
+                when:   $date,
+                what:   MAIN_PLANETS,
+            );
         }
         $t2 = microtime(true);
         $dt_swetest = round($t2 - $t1, 2);
+        //
+        // Meeus1
         //
         $t1 = microtime(true);
         foreach(self::$dates as $date){
@@ -66,6 +73,19 @@ class time {
         $t2 = microtime(true);
         $dt_m1 = round($t2 - $t1, 2);
         //
+        // Meeusmall
+        //
+        $t1 = microtime(true);
+        foreach(self::$dates as $date){
+            $params = [
+                'date'      => $date,
+                'planets'   => SysolC::MAIN_PLANETS,
+            ];
+            $msmall = Meeusmall::ephem($params);
+        }
+        $t2 = microtime(true);
+        $dt_msmall = round($t2 - $t1, 2);
+        //
         // Report
         //
         self::$output .= "<div>Test for " . self::$N . " computations.</div>\n";
@@ -76,6 +96,8 @@ class time {
         self::$output .= "    <tr><td>Swetest</td><td>$dt_swetest s</td><td>100 %</td></tr>\n";
         $p = round(100 * $dt_m1 / $dt_swetest, 2);
         self::$output .= "    <tr><td>Meeus1</td><td>$dt_m1 s</td><td>$p %</td></tr>\n";
+        $p = round(100 * $dt_msmall / $dt_swetest, 2);
+        self::$output .= "    <tr><td>Meeusmall</td><td>$dt_msmall s</td><td>$p %</td></tr>\n";
         self::$output .= "</table>\n";
         self::pageFooter();
         //
