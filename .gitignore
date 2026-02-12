@@ -1,7 +1,9 @@
 
+1.local
+1.build
 config.yml
 bin
-tmp
+var
 
 # files marked for deletion
 z.*

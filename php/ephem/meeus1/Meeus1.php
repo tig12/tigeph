@@ -74,7 +74,7 @@ class Meeus1 implements Ephem {
     }
     
     /** 
-        Computation using swetest program of Swiss Ephemeris
+        Computation using Meeus1 routines
         See tigeph\Ephem for documentation of parameters $date and $planets, and return type.
     **/
     public static function ephem(
@@ -102,7 +102,7 @@ class Meeus1 implements Ephem {
                 using constants of SpaceTimeC ; spherical by default.
         @param  $onlyLongitude
                 if EC SPHERICAL (r, l, b) is demanded,
-                don't return an array of Vector3 bet an array of doubles containing longitudes of planets.
+                don't return an array of Vector3 but an array of doubles containing longitudes of planets.
                 
         @return An associative array. The keys contain the planet constants of SysolC.
                 The values contain the coordinates (instances of Vector3).
