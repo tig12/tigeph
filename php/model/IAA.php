@@ -59,5 +59,23 @@ class IAA {
         'NN' => SysolC::MEAN_LUNAR_NODE,
         'CH' => SysolC::CHIRON,
     ];
+    
+    /** 
+        Checks that an array contains valid IAA codes.
+        @return     A report indicating the invalid codes.
+                    Empty string if all codes are valid.
+    **/
+    public static function checkCodes(array $codes): string{
+        $invalids = [];
+        foreach($codes as $code){
+            if(!in_array($code, self::PLANETS)){
+                $invalids[] = $code;
+            }
+        }
+        if(count($invalids) == 0){
+            return '';
+        }
+        return "INVALID CODE(S): '" . implode("', '", $invalids) . "'";
+    }
 
 } // end class
