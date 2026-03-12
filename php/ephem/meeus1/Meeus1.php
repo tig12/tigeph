@@ -13,13 +13,13 @@
 ****************************************************************************************/
 namespace tigeph\ephem\meeus1;
 
-use tigeph\Ephem;
+use tigeph\model\IEphem;
 use tigeph\model\SpaceTimeC;
 use tigeph\model\SolarFramesC;
 use tigeph\model\SysolC;
 use tigeph\ephem\JulianDay;
 
-class Meeus1 implements Ephem {
+class Meeus1 implements IEphem {
     
     //********************* Instance variables ******************************
     private $planets;

@@ -6,7 +6,7 @@
     @license    GPL
     @history    2021-02-02 16:06:03+01:00, Thierry Graff : Creation
 ********************************************************************************/
-namespace tigeph;
+namespace tigeph\model;
 
 interface IEphem {
     
