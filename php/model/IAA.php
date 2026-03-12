@@ -78,4 +78,14 @@ class IAA {
         return "INVALID CODE(S): '" . implode("', '", $invalids) . "'";
     }
 
+    /**
+        Converts IAA planet codes to tigeph constants (defined in tigeph.model.SysolC).
+        @param  $iaaCodes Array of IAA planet codes.
+                Ex: ['SO', 'MO', 'ME', 'VE', 'MA', 'JU', 'SA', 'UR', 'NE', 'PL', 'NN']
+        @return Array of equivalent tigeph codes that can be used to call an implementation of tigeph.IEphem.ephem()
+    **/
+    public static function iaa2tigeph(array $iaaCodes): array {
+        return array_values(array_intersect_key(IAA::IAA_TIGEPH, array_flip($iaaCodes)));
+    }
+    
 } // end class
