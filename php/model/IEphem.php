@@ -8,7 +8,7 @@
 ********************************************************************************/
 namespace tigeph;
 
-interface Ephem {
+interface IEphem {
     
     /** 
         Computation of astronomical or astrological points.

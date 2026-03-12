@@ -7,7 +7,7 @@
 ****************************************************************************************/
 namespace tigeph\ephem\meeusmall;
 
-use tigeph\Ephem;
+use tigeph\model\IEphem;
 use tigeph\model\SpaceTimeC;
 use tigeph\model\SolarFramesC;
 use tigeph\model\SysolC;
@@ -15,7 +15,7 @@ use tigeph\ephem\JulianDay;
 use tigeph\ephem\meeus1\Meeus1x;
 use tigeph\ephem\meeus1\Vector3;
 
-class Meeusmall implements Ephem {
+class Meeusmall implements IEphem {
     
     //********************* Instance variables ******************************
     private $planets;

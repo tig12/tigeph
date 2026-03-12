@@ -24,11 +24,11 @@
 ********************************************************************************/
 namespace tigeph\ephem\swetest;
 
-use tigeph\Ephem;
+use tigeph\model\IEphem;
 use tigeph\model\DomC;
 use tigeph\model\SysolC;
 
-class Swetest implements Ephem {
+class Swetest implements IEphem {
     
     /** Path to the swetest binary **/
     private static $SWEBIN;
